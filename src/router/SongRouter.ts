@@ -6,6 +6,7 @@ const songRouter = Router();
 songRouter.use(auth)
 songRouter.get('', songController.findAll);
 songRouter.post('', songController.add);
+songRouter.get('/:id',songController.findById)
 songRouter.put('/:id', songController.update);
 songRouter.delete('/:id', songController.delete);
 export default songRouter;

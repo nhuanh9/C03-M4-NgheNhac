@@ -17,6 +17,10 @@ class SongController {
         let data = await songService.delete(req.params.id);
         res.json(data)
     }
+    findById = async (req,res) => {
+        let data = await songService.findById(req.params.id)
+        res.json(data)
+    }
 }
 
 export default new SongController();

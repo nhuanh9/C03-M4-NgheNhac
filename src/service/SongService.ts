@@ -31,7 +31,21 @@ class SongService implements Service<Song> {
     }
 
     findById = async (id) => {
-        return await this.repository.find({where: {id: id}});
+        return await this.repository.createQueryBuilder("song")
+            .leftJoinAndSelect("song.album","album")
+            .leftJoinAndSelect("song.user","user")
+            .select([
+                "song.id",
+                "song.name",
+                "song.singer",
+                "song.musician",
+                "song.songUrl",
+                "song.imageUrl",
+                "album.name",
+                "user.username"
+            ])
+            .where("song.id = :id",{id})
+            .getMany();
     }
 
     update = async (id, data) => {
