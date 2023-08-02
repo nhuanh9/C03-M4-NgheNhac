@@ -1,8 +1,8 @@
 import {Router} from "express";
-import productRouter from "./ProductRouter";
+import songRouter from "./SongRouter";
 import {userRouter} from "./userRouter";
 
 const router = Router();
-router.use('/products', productRouter);
+router.use('/songs', songRouter);
 router.use('', userRouter);
 export default router;

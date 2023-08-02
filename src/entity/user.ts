@@ -8,4 +8,7 @@ export class User {
     username: string;
     @Column({type: 'varchar'})
     password: string
+
+    @Column({type: 'varchar'})
+    role: string
 }

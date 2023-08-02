@@ -1,7 +1,7 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
-export class Category {
+export class Album {
     @PrimaryGeneratedColumn()
     id: number;
 
