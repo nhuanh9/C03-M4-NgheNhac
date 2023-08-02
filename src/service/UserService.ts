@@ -11,10 +11,26 @@ class UserService {
         this.userRepository = AppDataSource.getRepository(User);
     }
 
+    findUser = async (username) => {
+        let userObj =  this.userRepository.findOneBy({
+            where:{
+                username: username
+            }
+        })
+        if(!userObj){
+            return "Fail"
+        } else {
+            return userObj.username
+        }
+    }
 
     register = async (user) => {
-        user.password = await bcrypt.hash(user.password, 10);
-        return this.userRepository.save(user);
+        if(user.username === this.findUser(user.username)){
+            return "Account already exists"
+        } else {
+            user.password = await bcrypt.hash(user.password, 10);
+            return this.userRepository.save(user);
+        }
     }
 
 
