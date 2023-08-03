@@ -61,6 +61,7 @@ class SongService implements Service<Song> {
                 "song.musician",
                 "song.songUrl",
                 "song.imageUrl",
+                "album.name",
                 "playlist.name",
                 "playlist.imgUrl"
             ])
@@ -118,6 +119,26 @@ class SongService implements Service<Song> {
             .where("album.id = :idAlbum",{idAlbum})
             .andWhere("song.id = :id", {id})
             .getMany();
+    }
+    findAllInPlaylistByUser = async (userId) => {
+        return await this.repository.createQueryBuilder("song")
+            .leftJoinAndSelect("song.playlist", "playlist")
+            .leftJoinAndSelect("playlist.user", "user")
+            .select([
+                "song.id",
+                "song.name",
+                "song.singer",
+                "song.musician",
+                "song.songUrl",
+                "song.imageUrl",
+                "playlist.name",
+                "playlist.imgUrl",
+                "playlist.description",
+                "user.username",
+                "user.imgUrl"
+            ])
+            .where("user.id = :userId", {userId})
+            .getMany()
     }
 }
 export default new SongService();

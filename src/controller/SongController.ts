@@ -14,24 +14,27 @@ class SongController {
         res.json(data)
     }
     findAllById = async (req,res) => {
-        let {id, idPlaylist, idAlbum} = req.query
-        if (idPlaylist == undefined && id == undefined && idAlbum == undefined){
-            let list = await songService.findAll();
-            res.json(list)
-        } else if (idPlaylist != undefined && id == undefined && idAlbum == undefined){
+        let {id, idPlaylist, idAlbum, idUser} = req.query
+        if (idPlaylist == undefined && id == undefined && idAlbum == undefined && idUser == undefined){
+            let data = await songService.findAll();
+            res.json(data)
+        } else if (idPlaylist != undefined && id == undefined && idAlbum == undefined && idUser == undefined){
             let data = await songService.findAllByPlaylistId(idPlaylist)
             res.json(data)
-        } else if (idPlaylist == undefined && id != undefined && idAlbum == undefined) {
+        } else if (idPlaylist == undefined && id != undefined && idAlbum == undefined && idUser == undefined) {
             let data = await songService.findById(id)
             res.json(data)
-        } else if (idPlaylist != undefined && id != undefined && idAlbum == undefined){
+        } else if (idPlaylist != undefined && id != undefined && idAlbum == undefined && idUser == undefined){
             let data = await songService.findOneByPlaylistId(Number(idPlaylist), Number(id))
             res.json(data)
-        } else if (idPlaylist == undefined && id == undefined && idAlbum != undefined){
+        } else if (idPlaylist == undefined && id == undefined && idAlbum != undefined && idUser == undefined){
             let data = await songService.findAllByAlbumId(idAlbum)
             res.json(data)
-        } else if (idPlaylist == undefined && id != undefined && idAlbum != undefined){
+        } else if (idPlaylist == undefined && id != undefined && idAlbum != undefined && idUser == undefined){
             let data = await songService.findOneByAlbumId(Number(idAlbum), Number(id))
+            res.json(data)
+        } else if (idPlaylist == undefined && id == undefined && idAlbum == undefined && idUser != undefined){
+            let data = await songService.findAllInPlaylistByUser(idUser)
             res.json(data)
         }
     }
