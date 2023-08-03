@@ -32,6 +32,13 @@ class UserService {
     findAll = async () => {
         return this.userRepository.find()
     }
+    findById = async (id) => {
+        return this.userRepository.find({
+            where: {
+                id: id
+            }
+        })
+    }
 }
 
 export default new UserService();

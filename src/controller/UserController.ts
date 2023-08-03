@@ -19,6 +19,10 @@ class UserController {
         let data = await userService.findAll()
         res.json(data)
     }
+    findById = async (req: Request, res: Response) => {
+        let data = await userService.findById(req.params.id)
+        res.json(data)
+    }
 }
 
 export default new UserController();
