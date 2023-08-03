@@ -54,6 +54,7 @@ class SongService implements Service<Song> {
     findAllByPlaylistId = async (idPlaylist) =>{
         return await this.repository.createQueryBuilder("song")
             .leftJoinAndSelect("song.playlist","playlist")
+            .leftJoinAndSelect("song.album","album")
             .select([
                 "song.id",
                 "song.name",
