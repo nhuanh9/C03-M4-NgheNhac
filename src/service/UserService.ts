@@ -24,10 +24,25 @@ class UserService {
         }
     }
 
-    checkUser = (user) => {
-        const query = 'SELECT * FROM user WHERE username = ? AND password = ?';
-        return this.userRepository.query(query, [user.username, user.password]);
+    checkUser = async (user) => {
+        let userFind = await this.userRepository.findOne({
+            where: {
+                username: user.username,
+            },
+        });
+
+        if (!userFind) {
+            return 'User does not exist';
+        } else {
+            if (user.password == userFind.password) {
+                const userId = userFind.id; // Lấy ra ID của người dùng
+                return `${userId}`;
+            } else {
+                return 'Password is wrong';
+            }
+        }
     };
+
 
     findAll = async () => {
         return this.userRepository.find()
