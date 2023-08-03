@@ -44,6 +44,8 @@ class PlaylistService implements Service<Playlist>{
             .select([
                 "playlist.id",
                 "playlist.name",
+                "playlist.imgUrl",
+                "playlist.description",
                 "user.username",
                 "user.imgUrl"
             ])
