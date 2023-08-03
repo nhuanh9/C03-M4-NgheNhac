@@ -8,5 +8,4 @@ playlistRouter.get('', playlistController.findAll);
 playlistRouter.post('', playlistController.add);
 playlistRouter.put('/:id', playlistController.update);
 playlistRouter.delete('/:id', playlistController.delete);
-playlistRouter.get('/?username=', playlistController.findByUserName);
 export default playlistRouter;

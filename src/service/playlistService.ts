@@ -45,8 +45,18 @@ class PlaylistService implements Service<Playlist>{
                 "playlist.name",
                 "user.username"
             ])
-            .where(`user.username = ${username}`)
+            .where("user.username = :username", {username})
             .getMany();
+    }
+    getSortByAsc = async () => {
+        return await this.repository.createQueryBuilder("playlist")
+            .orderBy("playlist.name","ASC")
+            .getMany()
+    }
+    getSortByDesc = async () => {
+        return await this.repository.createQueryBuilder("playlist")
+            .orderBy("playlist.name","DESC")
+            .getMany()
     }
 }
 export default new PlaylistService()

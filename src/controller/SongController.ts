@@ -14,18 +14,24 @@ class SongController {
         res.json(data)
     }
     findAllById = async (req,res) => {
-        let {id, idPlaylist} = req.query
-        if (idPlaylist == undefined && id == undefined){
+        let {id, idPlaylist, idAlbum} = req.query
+        if (idPlaylist == undefined && id == undefined && idAlbum == undefined){
             let list = await songService.findAll();
             res.json(list)
-        } else if (idPlaylist != undefined && id == undefined){
+        } else if (idPlaylist != undefined && id == undefined && idAlbum == undefined){
             let data = await songService.findAllByPlaylistId(idPlaylist)
             res.json(data)
-        } else if (idPlaylist == undefined && id != undefined) {
+        } else if (idPlaylist == undefined && id != undefined && idAlbum == undefined) {
             let data = await songService.findById(id)
             res.json(data)
-        } else if (idPlaylist != undefined && id != undefined){
+        } else if (idPlaylist != undefined && id != undefined && idAlbum == undefined){
             let data = await songService.findOneByPlaylistId(Number(idPlaylist), Number(id))
+            res.json(data)
+        } else if (idPlaylist == undefined && id == undefined && idAlbum != undefined){
+            let data = await songService.findAllByAlbumId(idAlbum)
+            res.json(data)
+        } else if (idPlaylist == undefined && id != undefined && idAlbum != undefined){
+            let data = await songService.findOneByAlbumId(Number(idAlbum), Number(id))
             res.json(data)
         }
     }

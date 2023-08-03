@@ -84,5 +84,38 @@ class SongService implements Service<Song> {
             .andWhere("song.id = :id", {id})
             .getMany();
     }
+    findAllByAlbumId = async (id) =>{
+        return await this.repository.createQueryBuilder("song")
+            .leftJoinAndSelect("song.album","album")
+            .select([
+                "song.id",
+                "song.name",
+                "song.singer",
+                "song.musician",
+                "song.songUrl",
+                "song.imageUrl",
+                "album.name",
+                "album.imgUrl"
+            ])
+            .where("album.id = :id",{id})
+            .getMany();
+    }
+    findOneByAlbumId = async (idAlbum, id) => {
+        return await this.repository.createQueryBuilder("song")
+            .leftJoinAndSelect("song.album","Album")
+            .select([
+                "song.id",
+                "song.name",
+                "song.singer",
+                "song.musician",
+                "song.songUrl",
+                "song.imageUrl",
+                "album.name",
+                "album.imgUrl"
+            ])
+            .where("album.id = :idAlbum",{idAlbum})
+            .andWhere("song.id = :id", {id})
+            .getMany();
+    }
 }
 export default new SongService();
