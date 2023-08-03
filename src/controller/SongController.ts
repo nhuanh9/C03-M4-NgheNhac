@@ -19,10 +19,13 @@ class SongController {
             let list = await songService.findAll();
             res.json(list)
         } else if (idPlaylist != undefined && id == undefined){
-            let data = await songService.findByPlaylistId(idPlaylist)
+            let data = await songService.findAllByPlaylistId(idPlaylist)
             res.json(data)
-        } else {
+        } else if (idPlaylist == undefined && id != undefined) {
             let data = await songService.findById(id)
+            res.json(data)
+        } else if (idPlaylist != undefined && id != undefined){
+            let data = await songService.findOneByPlaylistId(Number(idPlaylist), Number(id))
             res.json(data)
         }
     }
