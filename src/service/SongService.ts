@@ -125,6 +125,7 @@ class SongService implements Service<Song> {
         return await this.repository.createQueryBuilder("song")
             .leftJoinAndSelect("song.playlist", "playlist")
             .leftJoinAndSelect("playlist.user", "user")
+            .leftJoinAndSelect("song.album","album")
             .select([
                 "song.id",
                 "song.name",
@@ -132,6 +133,8 @@ class SongService implements Service<Song> {
                 "song.musician",
                 "song.songUrl",
                 "song.imageUrl",
+                "album.name",
+                "album.singer",
                 "playlist.name",
                 "playlist.imgUrl",
                 "playlist.description",
