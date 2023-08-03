@@ -12,6 +12,7 @@ class PlaylistService implements Service<Playlist>{
             .select([
                 "playlist.id",
                 "playlist.name",
+                "playlist.imgUrl",
                 "user.username"
             ])
             .getMany();
