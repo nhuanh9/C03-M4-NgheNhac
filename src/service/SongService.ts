@@ -30,22 +30,25 @@ class SongService implements Service<Song> {
         return await this.repository.delete(id);
     }
 
+    // findById = async (id) => {
+    //     return await this.repository.createQueryBuilder("song")
+    //         .leftJoinAndSelect("song.album","album")
+    //         .leftJoinAndSelect("song.user","user")
+    //         .select([
+    //             "song.id",
+    //             "song.name",
+    //             "song.singer",
+    //             "song.musician",
+    //             "song.songUrl",
+    //             "song.imageUrl",
+    //             "album.name",
+    //             "user.username"
+    //         ])
+    //         .where("song.id = :id",{id})
+    //         .getMany();
+    // }
     findById = async (id) => {
-        return await this.repository.createQueryBuilder("song")
-            .leftJoinAndSelect("song.album","album")
-            .leftJoinAndSelect("song.user","user")
-            .select([
-                "song.id",
-                "song.name",
-                "song.singer",
-                "song.musician",
-                "song.songUrl",
-                "song.imageUrl",
-                "album.name",
-                "user.username"
-            ])
-            .where("song.id = :id",{id})
-            .getMany();
+        return await this.repository.find(id)
     }
 
     update = async (id, data) => {
@@ -95,7 +98,8 @@ class SongService implements Service<Song> {
                 "song.songUrl",
                 "song.imageUrl",
                 "album.name",
-                "album.imgUrl"
+                "album.imgUrl",
+                "album.singer"
             ])
             .where("album.id = :id",{id})
             .getMany();
@@ -111,7 +115,8 @@ class SongService implements Service<Song> {
                 "song.songUrl",
                 "song.imageUrl",
                 "album.name",
-                "album.imgUrl"
+                "album.imgUrl",
+                "album.singer"
             ])
             .where("album.id = :idAlbum",{idAlbum})
             .andWhere("song.id = :id", {id})
