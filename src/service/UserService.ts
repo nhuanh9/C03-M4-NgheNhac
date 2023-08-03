@@ -49,6 +49,10 @@ class UserService {
         }
     }
 
+    findAll = async () => {
+        return this.userRepository.find()
+    }
+
 }
 
 export default new UserService();
