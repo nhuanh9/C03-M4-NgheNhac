@@ -7,6 +7,6 @@ import albumRouter from "./albumRouter";
 const router = Router();
 router.use('/songs', songRouter);
 router.use('/playlists', playlistRouter);
-router.use('/album', albumRouter )
+router.use('/albums', albumRouter )
 router.use('', userRouter);
 export default router;
