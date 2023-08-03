@@ -38,15 +38,16 @@ class PlaylistService implements Service<Playlist>{
         return await this.repository.update(id,data)
     }
 
-    findByUserName = async (username) => {
+    findByUserName = async (userId) => {
         return await this.repository.createQueryBuilder("playlist")
-            .innerJoin("playlist.user","user")
+            .leftJoinAndSelect("playlist.user","user")
             .select([
                 "playlist.id",
                 "playlist.name",
-                "user.username"
+                "user.username",
+                "user.imgUrl"
             ])
-            .where("user.username = :username", {username})
+            .where("user.id = :userId", {userId})
             .getMany();
     }
     getSortByAsc = async () => {
