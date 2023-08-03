@@ -1,10 +1,6 @@
 import songService from "../service/SongService";
 
 class SongController {
-    findAll = async (req, res) => {
-        let list = await songService.findAll();
-        res.json(list)
-    }
     add = async (req, res) => {
         let data = await songService.add(req.body);
         res.json(data)
@@ -17,9 +13,18 @@ class SongController {
         let data = await songService.delete(req.params.id);
         res.json(data)
     }
-    findById = async (req,res) => {
-        let data = await songService.findById(req.params.id)
-        res.json(data)
+    findAllById = async (req,res) => {
+        let {id, idPlaylist} = req.query
+        if (idPlaylist == undefined && id == undefined){
+            let list = await songService.findAll();
+            res.json(list)
+        } else if (idPlaylist != undefined && id == undefined){
+            let data = await songService.findByPlaylistId(idPlaylist)
+            res.json(data)
+        } else {
+            let data = await songService.findById(id)
+            res.json(data)
+        }
     }
 }
 

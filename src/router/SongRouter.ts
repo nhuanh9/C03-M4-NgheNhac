@@ -3,10 +3,9 @@ import songController from "../controller/SongController";
 import {auth} from "../middleware/jwt";
 
 const songRouter = Router();
-songRouter.use(auth)
-songRouter.get('', songController.findAll);
+songRouter.use(auth);
 songRouter.post('', songController.add);
-songRouter.get('/:id',songController.findById)
+songRouter.get('/',songController.findAllById);
 songRouter.put('/:id', songController.update);
 songRouter.delete('/:id', songController.delete);
 export default songRouter;
