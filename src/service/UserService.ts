@@ -33,7 +33,7 @@ class UserService {
         if (!userFind) {
             return 'User is not exist'
         } else {
-            let passWordCompare = bcrypt.compare(user.password, userFind.password);
+            let passWordCompare = await bcrypt.compare(user.password, userFind.password);
             if (passWordCompare) {
                 let payload = {
                     idUser: userFind.id,
