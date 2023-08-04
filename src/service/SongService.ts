@@ -200,5 +200,23 @@ class SongService implements Service<Song> {
             .where("user.id = :userId", {userId})
             .getMany()
     }
+    findNotInPlaylistId = async (idPlaylist, id) =>{
+        return await this.repository.createQueryBuilder("song")
+            .leftJoinAndSelect("song.playlist","playlist")
+            .leftJoinAndSelect("song.album","album")
+            .select([
+                "song.id",
+                "song.name",
+                "song.singer",
+                "song.musician",
+                "song.songUrl",
+                "song.imageUrl",
+                "album.name",
+                "playlist.name",
+                "playlist.imgUrl"
+            ])
+            .where("playlist.id <> :idPlaylist",{idPlaylist})
+            .getMany();
+    }
 }
 export default new SongService();
