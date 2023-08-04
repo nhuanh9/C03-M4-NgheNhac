@@ -17,6 +17,7 @@ class PlaylistService implements Service<Playlist>{
                 "user.username",
                 "user.imgUrl"
             ])
+            .orderBy("playlist.id","ASC")
             .getMany();
     }
     add = async (playlist) => {
