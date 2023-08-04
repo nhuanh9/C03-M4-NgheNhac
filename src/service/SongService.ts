@@ -8,7 +8,6 @@ class SongService implements Service<Song> {
     findAll = async () => {
         return await this.repository.createQueryBuilder("song")
             .leftJoinAndSelect("song.album","album")
-            .leftJoinAndSelect("song.user","user")
             .select([
                 "song.id",
                 "song.name",
@@ -16,8 +15,7 @@ class SongService implements Service<Song> {
                 "song.musician",
                 "song.songUrl",
                 "song.imageUrl",
-                "album.name",
-                "user.username"
+                "album.name"
             ])
             .getMany();
     }
@@ -29,11 +27,9 @@ class SongService implements Service<Song> {
     delete = async (id) => {
         return await this.repository.delete(id);
     }
-
-    findById = async (id) => {
+    findByName = async (name) => {
         return await this.repository.createQueryBuilder("song")
             .leftJoinAndSelect("song.album","album")
-            .leftJoinAndSelect("song.user","user")
             .select([
                 "song.id",
                 "song.name",
@@ -41,8 +37,23 @@ class SongService implements Service<Song> {
                 "song.musician",
                 "song.songUrl",
                 "song.imageUrl",
-                "album.name",
-                "user.username"
+                "album.name"
+            ])
+            .where("song.name LIKE :name", { name: `%${name}%` })
+            .getMany();
+    }
+
+    findById = async (id) => {
+        return await this.repository.createQueryBuilder("song")
+            .leftJoinAndSelect("song.album","album")
+            .select([
+                "song.id",
+                "song.name",
+                "song.singer",
+                "song.musician",
+                "song.songUrl",
+                "song.imageUrl",
+                "album.name"
             ])
             .where("song.id = :id",{id})
             .getMany();

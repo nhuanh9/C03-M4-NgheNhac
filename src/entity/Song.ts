@@ -26,9 +26,6 @@ export class Song {
     @ManyToOne(() => Album, (album) => album.id)
     album: Album
 
-    @ManyToOne(() => User, (userObj)=> userObj.id)
-    user: User
-
     @ManyToOne(() => Playlist, (playlist)=> playlist.id)
     playlist: Playlist
 }
