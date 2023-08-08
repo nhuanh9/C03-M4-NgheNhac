@@ -124,7 +124,7 @@ class SongService implements Service<Song> {
 
     findAllByAlbumId = async (id) => {
         return await this.repository.createQueryBuilder("song")
-            .leftJoinAndSelect("song.album", "album")
+            .leftJoinAndSelect("song.album","album")
             .select([
                 "song.id",
                 "song.name",
@@ -136,7 +136,7 @@ class SongService implements Service<Song> {
                 "album.imgUrl",
                 "album.singer"
             ])
-            .where("album.id = :id", { id })
+            .where("album.id = :id",{id})
             .getMany();
     }
     findOneByAlbumId = async (idAlbum, id) => {
