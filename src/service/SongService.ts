@@ -1,13 +1,26 @@
-import {AppDataSource} from "../data-source";
-import {Song} from "../entity/Song";
-import {Service} from "./Service";
+import { Not, getRepository } from "typeorm";
+import { AppDataSource } from "../data-source";
+import { Song } from "../entity/Song";
+import { Service } from "./Service";
+import { PlaylistSong } from "src/entity/playlistSong";
 
 class SongService implements Service<Song> {
     private repository = AppDataSource.getRepository(Song);
 
+    findSongsNotInAnyPlaylist = async (playlistId) => {
+        return await this.repository
+            .createQueryBuilder('song')
+            .select(['song.id', 'song.name', 'song.singer', 'song.songUrl', 'song.imageUrl',])
+            .leftJoin('song.playlistSongs', 'playlistSong')
+            .leftJoinAndSelect("song.album", "album")
+            .where('playlistSong.playlistId != :playlistId', { playlistId })
+            .orWhere('playlistSong.playlistId IS NULL')
+            .getMany();
+    }
+
     findAll = async () => {
         return await this.repository.createQueryBuilder("song")
-            .leftJoinAndSelect("song.album","album")
+            .leftJoinAndSelect("song.album", "album")
             .select([
                 "song.id",
                 "song.name",
@@ -29,7 +42,7 @@ class SongService implements Service<Song> {
     }
     findByName = async (name) => {
         return await this.repository.createQueryBuilder("song")
-            .leftJoinAndSelect("song.album","album")
+            .leftJoinAndSelect("song.album", "album")
             .select([
                 "song.id",
                 "song.name",
@@ -44,7 +57,7 @@ class SongService implements Service<Song> {
     }
     findBySingerName = async (singerName) => {
         return await this.repository.createQueryBuilder("song")
-            .leftJoinAndSelect("song.album","album")
+            .leftJoinAndSelect("song.album", "album")
             .select([
                 "song.id",
                 "song.name",
@@ -59,7 +72,7 @@ class SongService implements Service<Song> {
     }
     findByAlbumName = async (albumName) => {
         return await this.repository.createQueryBuilder("song")
-            .leftJoinAndSelect("song.album","album")
+            .leftJoinAndSelect("song.album", "album")
             .select([
                 "song.id",
                 "song.name",
@@ -74,7 +87,7 @@ class SongService implements Service<Song> {
     }
     findByMusicianName = async (musicianName) => {
         return await this.repository.createQueryBuilder("song")
-            .leftJoinAndSelect("song.album","album")
+            .leftJoinAndSelect("song.album", "album")
             .select([
                 "song.id",
                 "song.name",
@@ -90,7 +103,7 @@ class SongService implements Service<Song> {
 
     findById = async (id) => {
         return await this.repository.createQueryBuilder("song")
-            .leftJoinAndSelect("song.album","album")
+            .leftJoinAndSelect("song.album", "album")
             .select([
                 "song.id",
                 "song.name",
@@ -100,7 +113,7 @@ class SongService implements Service<Song> {
                 "song.imageUrl",
                 "album.name"
             ])
-            .where("song.id = :id",{id})
+            .where("song.id = :id", { id })
             .getMany();
     }
 
@@ -109,9 +122,9 @@ class SongService implements Service<Song> {
     }
 
 
-    findAllByAlbumId = async (id) =>{
+    findAllByAlbumId = async (id) => {
         return await this.repository.createQueryBuilder("song")
-            .leftJoinAndSelect("song.album","album")
+            .leftJoinAndSelect("song.album", "album")
             .select([
                 "song.id",
                 "song.name",
@@ -123,12 +136,12 @@ class SongService implements Service<Song> {
                 "album.imgUrl",
                 "album.singer"
             ])
-            .where("album.id = :id",{id})
+            .where("album.id = :id", { id })
             .getMany();
     }
     findOneByAlbumId = async (idAlbum, id) => {
         return await this.repository.createQueryBuilder("song")
-            .leftJoinAndSelect("song.album","Album")
+            .leftJoinAndSelect("song.album", "Album")
             .select([
                 "song.id",
                 "song.name",
@@ -140,9 +153,11 @@ class SongService implements Service<Song> {
                 "album.imgUrl",
                 "album.singer"
             ])
-            .where("album.id = :idAlbum",{idAlbum})
-            .andWhere("song.id = :id", {id})
+            .where("album.id = :idAlbum", { idAlbum })
+            .andWhere("song.id = :id", { id })
             .getMany();
     }
+
+
 }
 export default new SongService();

@@ -43,5 +43,16 @@ class PlaylistSongController{
         let data = await playlistSongService.update(req.params.id, req.body)
         res.json(data)
     }
+
+    // getSongsNotInAnyPlaylist = async (req, res) => {
+    //     try {
+    //       const data = await playlistSongService.findSongsNotInAnyPlaylist(req.params.notSong);
+    //       console.log(data);
+    //       res.json(data);
+    //     } catch (error) {
+    //       console.error(error);
+    //       res.status(500).json({ error: 'Internal Server Error' });
+    //     }
+    //   };
 }
 export default new PlaylistSongController()

@@ -5,6 +5,7 @@ import {auth} from "../middleware/jwt";
 const playlistSongRouter = Router();
 // playlistSongRouter.use(auth)
 playlistSongRouter.get('/id/', playlistSongController.findAll);
+// playlistSongRouter.get('/id/:notSong', playlistSongController.getSongsNotInAnyPlaylist);
 playlistSongRouter.post('/', playlistSongController.add);
 playlistSongRouter.get('/:id', playlistSongController.findById);
 playlistSongRouter.put('/:id', playlistSongController.update);
