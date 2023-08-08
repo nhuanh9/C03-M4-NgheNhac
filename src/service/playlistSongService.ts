@@ -60,13 +60,12 @@ class PlaylistSongService implements Service<PlaylistSong>{
             .getMany()
     }
     findSongNotInPlaylistId = async (idPlaylist, idSong) =>{
-        const songsInPlaylist = await this.findAllSongByPlaylistId(idPlaylist);
-        return await this.repository.createQueryBuilder("playlistSong")
-            .leftJoinAndSelect("playlistSong.song","song")
-            .leftJoinAndSelect("playlistSong.playlist","playlist")
-            .leftJoinAndSelect("song.album", "album")
+        return await this.repository.createQueryBuilder("playlist_Song")
+            .leftJoinAndSelect("playlist_Song.song","song")
+            .leftJoin("playlist_Song.playlist","playlist")
+            .leftJoin("song.album", "album")
             .where("playlist.id <> :idPlaylist",{idPlaylist})
-            .andWhere(`song.id NOT IN (:...songIds)`, { songIds: songsInPlaylist.map(song => song.id) })
+            .orWhere("playlist_song.playlistId IS NULL")
             .getMany();
     }
 }
