@@ -2,7 +2,7 @@ import playlistService from "../service/playlistService";
 
 class PlaylistController{
     findAll = async (req, res) => {
-        let {userId, asc, desc, id} = req.query
+        let {userId, asc, desc, id,} = req.query
         if (userId == undefined && asc == undefined && desc == undefined && id == undefined){
             let list = await playlistService.findAll();
             res.json(list)
@@ -14,6 +14,12 @@ class PlaylistController{
             res.json(list)
         } else if (userId == undefined && asc == undefined && desc == '' && id == undefined){
             let list = await playlistService.getSortByDesc()
+            res.json(list)
+        } else if (userId != undefined && asc == '' && desc == undefined && id == undefined){
+            let list = await playlistService.getSortAscByUserId(Number(userId))
+            res.json(list)
+        } else if (userId != undefined && asc == undefined && desc == '' && id == undefined){
+            let list = await playlistService.getSortDescByUserId(Number(userId))
             res.json(list)
         } else if (userId == undefined && asc == undefined && desc == undefined && id != undefined){
             let list = await playlistService.findById(id)
@@ -32,6 +38,5 @@ class PlaylistController{
         let data = await playlistService.delete(req.params.id);
         res.json(data)
     }
-
 }
 export default new PlaylistController()
