@@ -107,41 +107,8 @@ class SongService implements Service<Song> {
     update = async (id, data) => {
         return await this.repository.update(id, data);
     }
-    findAllByPlaylistId = async (idPlaylist) =>{
-        return await this.repository.createQueryBuilder("song")
-            .leftJoinAndSelect("song.playlist","playlist")
-            .leftJoinAndSelect("song.album","album")
-            .select([
-                "song.id",
-                "song.name",
-                "song.singer",
-                "song.musician",
-                "song.songUrl",
-                "song.imageUrl",
-                "album.name",
-                "playlist.name",
-                "playlist.imgUrl"
-            ])
-            .where("playlist.id = :idPlaylist",{idPlaylist})
-            .getMany();
-    }
-    findOneByPlaylistId = async (idPlaylist, id) => {
-        return await this.repository.createQueryBuilder("song")
-            .leftJoinAndSelect("song.playlist","playlist")
-            .select([
-                "song.id",
-                "song.name",
-                "song.singer",
-                "song.musician",
-                "song.songUrl",
-                "song.imageUrl",
-                "playlist.name",
-                "playlist.imgUrl"
-            ])
-            .where("playlist.id = :idPlaylist",{idPlaylist})
-            .andWhere("song.id = :id", {id})
-            .getMany();
-    }
+
+
     findAllByAlbumId = async (id) =>{
         return await this.repository.createQueryBuilder("song")
             .leftJoinAndSelect("song.album","album")
@@ -175,47 +142,6 @@ class SongService implements Service<Song> {
             ])
             .where("album.id = :idAlbum",{idAlbum})
             .andWhere("song.id = :id", {id})
-            .getMany();
-    }
-    findAllInPlaylistByUser = async (userId) => {
-        return await this.repository.createQueryBuilder("song")
-            .leftJoinAndSelect("song.playlist", "playlist")
-            .leftJoinAndSelect("playlist.user", "user")
-            .leftJoinAndSelect("song.album","album")
-            .select([
-                "song.id",
-                "song.name",
-                "song.singer",
-                "song.musician",
-                "song.songUrl",
-                "song.imageUrl",
-                "album.name",
-                "album.singer",
-                "playlist.name",
-                "playlist.imgUrl",
-                "playlist.description",
-                "user.username",
-                "user.imgUrl"
-            ])
-            .where("user.id = :userId", {userId})
-            .getMany()
-    }
-    findNotInPlaylistId = async (idPlaylist, id) =>{
-        return await this.repository.createQueryBuilder("song")
-            .leftJoinAndSelect("song.playlist","playlist")
-            .leftJoinAndSelect("song.album","album")
-            .select([
-                "song.id",
-                "song.name",
-                "song.singer",
-                "song.musician",
-                "song.songUrl",
-                "song.imageUrl",
-                "album.name",
-                "playlist.name",
-                "playlist.imgUrl"
-            ])
-            .where("playlist.id <> :idPlaylist",{idPlaylist})
             .getMany();
     }
 }

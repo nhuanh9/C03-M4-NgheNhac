@@ -1,7 +1,5 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToOne, PrimaryGeneratedColumn, ManyToMany} from "typeorm";
 import {Album} from "./Album";
-import {User} from "./user";
-import {Playlist} from "./playlist";
 
 @Entity()
 export class Song {
@@ -26,6 +24,4 @@ export class Song {
     @ManyToOne(() => Album, (album) => album.id)
     album: Album
 
-    @ManyToOne(() => Playlist, (playlist)=> playlist.id)
-    playlist: Playlist
 }

@@ -1,4 +1,5 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable} from "typeorm";
+import {Playlist} from "./playlist";
 
 @Entity()
 export class User {

@@ -1,5 +1,6 @@
 import { User } from "../entity/user";
 import { AppDataSource } from "../data-source";
+import { Like } from "typeorm";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { SECRET } from "../middleware/jwt";
@@ -12,13 +13,13 @@ class UserService {
     }
 
     register = async (user: User) => {
-        let userObj = this.userRepository.findOne({
+        let userObj = await this.userRepository.findOne({
             where: {
                 username: user.username
             }
         })
-        if (user.username === userObj.username) {
-            return "Account already exists"
+        if (user.username == userObj.username) {
+            return `Account '${userObj.username} already exists`
         } else {
             return this.userRepository.save(user);
         }
@@ -53,6 +54,13 @@ class UserService {
                 id: id
             }
         })
+    }
+    findByName = async (name) => {
+        return this.userRepository.find({
+            where: {
+                username: Like(`%${name}%`)
+            }
+        });
     }
 }
 

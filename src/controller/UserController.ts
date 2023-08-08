@@ -6,8 +6,8 @@ const session = require('express-session');
 class UserController {
 
     register = async (req: Request, res: Response) => {
-        await userService.register(req.body);
-        res.status(201).json('Create user success')
+       let result = await userService.register(req.body);
+        res.json(result)
     }
 
     login = async (req: Request, res: Response) => {
@@ -16,12 +16,17 @@ class UserController {
     }
 
     findAll = async (req: Request, res: Response) => {
-        let data = await userService.findAll()
-        res.json(data)
-    }
-    findById = async (req: Request, res: Response) => {
-        let data = await userService.findById(req.params.id)
-        res.json(data)
+        let {id, name} = req.query
+        if (id == undefined && name == undefined){
+            let data = await userService.findAll()
+            res.json(data)
+        } else if (id != undefined && name == undefined) {
+            let data = await userService.findById(id)
+            res.json(data)
+        } else if (id == undefined && name != undefined){
+            let data = await userService.findByName(name)
+            res.json(data)
+        }
     }
 }
 

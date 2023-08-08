@@ -5,7 +5,7 @@ import {auth} from "../middleware/jwt";
 const songRouter = Router();
 // songRouter.use(auth);
 songRouter.post('', songController.add);
-songRouter.get('/',songController.findAllById);
+songRouter.get('/id/',songController.findAllById);
 songRouter.get('/name/', songController.findOneByName);
 songRouter.put('/:id', songController.update);
 songRouter.delete('/:id', songController.delete);
