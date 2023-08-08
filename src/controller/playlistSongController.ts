@@ -4,24 +4,19 @@ class PlaylistSongController{
     findAll = async (req,res) =>{
         let {idSong, idPlaylist, userId} = req.query
         if (idSong == undefined && idPlaylist == undefined && userId == undefined){
-            console.log(1)
             let data = await playlistSongService.findAll()
             res.json(data)
         } else if (idSong == undefined && idPlaylist == undefined && userId != undefined){
-            console.log(2)
             let data = await playlistSongService.findAllSongInPlaylistByUser(userId)
             res.json(data)
         } else if (idSong == undefined && idPlaylist != undefined && userId == undefined){
-            console.log(3)
             let data = await playlistSongService.findAllSongByPlaylistId(idPlaylist)
             res.json(data)
         } else if (idSong != undefined && idPlaylist != undefined && userId == undefined){
             if(idSong == 0){
-                console.log(4)
                 let data = await playlistSongService.findSongNotInPlaylistId(Number(idPlaylist), Number(idSong))
                 res.json(data)
             } else {
-                console.log(5)
                 let data = await playlistSongService.findOneSongByPlaylistId(Number(idPlaylist), Number(idSong))
                 res.json(data)
             }
