@@ -17,9 +17,10 @@ class UserService {
             where: {
                 username: user.username
             }
-        })
-        if (user.username == userObj.username) {
-            return `Account '${userObj.username} already exists`
+        });
+
+        if (userObj && user.username === userObj.username) {
+            return `Account '${user.username}' already exists`;
         } else {
             return this.userRepository.save(user);
         }
